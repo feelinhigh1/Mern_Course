@@ -50,12 +50,8 @@ export default function Layout({
   const [sidebarCollapsed, setSidebarCollapsed] = useState(true);
   const router = useRouter();
 
-  // Determine sidebar width based on route and collapsed state
-  const isUsersPage = router.pathname === "/users";
-  const expandedWidth = isUsersPage
-    ? "w-[20%] min-w-[200px]"
-    : "w-[25%] min-w-[220px]";
-  const collapsedWidth = "w-[5%] min-w-[60px]";
+  const expandedWidth = "w-64"; // fixed 16rem (256px)
+  const collapsedWidth = "w-16"; // fixed 4rem (64px)
 
   return (
     <div className="min-h-screen flex bg-gray-100">
@@ -111,10 +107,10 @@ export default function Layout({
       <main className="flex-1 flex flex-col min-w-0">
         {/* Header */}
         <header className="w-full bg-white shadow px-4 py-3 flex items-center justify-between">
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 pl-8">
             <span className="text-xl font-bold">{title}</span>
           </div>
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-3 pr-8">
             <FontAwesomeIcon
               icon={faCircleUser}
               className="text-2xl text-gray-500"

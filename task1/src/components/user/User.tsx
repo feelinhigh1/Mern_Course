@@ -1,3 +1,5 @@
+// This component fetches and displays user data in a table format.
+
 import React, { useEffect, useState } from "react";
 import Table from "@/components/Table";
 import { getUsers } from "@/pages/api/rest_api";
