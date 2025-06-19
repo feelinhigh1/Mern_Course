@@ -1,32 +1,33 @@
 import React from "react";
 
-interface DynamicTableProps<T> {
+interface TableProps<T> {
   data: T[];
   onRowClick?: (row: T) => void;
 }
 
-export default function DynamicTable<T extends Record<string, any>>({
+export default function Table<T extends Record<string, any>>({
   data,
   onRowClick,
-}: DynamicTableProps<T>) {
+}: TableProps<T>) {
   if (!data || data.length === 0) {
     return (
-      <div className="p-4 text-center text-gray-500">No data available.</div>
+      <div className="p-6 text-center text-gray-500 italic">
+        No data available.
+      </div>
     );
   }
 
-  // Get table headers from keys of first item
   const headers = Object.keys(data[0]);
 
   return (
-    <div className="overflow-x-auto">
-      <table className="min-w-full border-collapse border border-gray-300">
-        <thead>
+    <div className="overflow-x-auto rounded-lg shadow-md border border-gray-200">
+      <table className="min-w-full border-collapse">
+        <thead className="bg-gray-100 sticky top-0 shadow">
           <tr>
             {headers.map((header) => (
               <th
                 key={header}
-                className="border border-gray-300 px-4 py-2 bg-gray-100 text-left text-gray-700 font-semibold"
+                className="px-6 py-3 text-left text-gray-700 font-semibold uppercase tracking-wider select-none"
               >
                 {header.charAt(0).toUpperCase() + header.slice(1)}
               </th>
@@ -37,13 +38,16 @@ export default function DynamicTable<T extends Record<string, any>>({
           {data.map((row, i) => (
             <tr
               key={i}
-              className={`cursor-pointer hover:bg-gray-100 ${
+              className={`transition-colors duration-200 ${
                 onRowClick ? "cursor-pointer" : ""
-              }`}
+              } ${i % 2 === 0 ? "bg-white" : "bg-gray-50"} hover:bg-blue-50`}
               onClick={() => onRowClick && onRowClick(row)}
             >
               {headers.map((header) => (
-                <td key={header} className="border border-gray-300 px-4 py-2">
+                <td
+                  key={header}
+                  className="px-6 py-4 text-gray-800 whitespace-nowrap"
+                >
                   {String(row[header])}
                 </td>
               ))}

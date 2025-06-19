@@ -9,6 +9,7 @@ import {
   faUsers,
   faGear,
   faCircleUser,
+  faBox,
 } from "@fortawesome/free-solid-svg-icons";
 import { faProductHunt } from "@fortawesome/free-brands-svg-icons";
 
@@ -38,7 +39,7 @@ export default function Layout({
     {
       name: "Products",
       path: "/products",
-      icon: <FontAwesomeIcon icon={faProductHunt} />,
+      icon: <FontAwesomeIcon icon={faBox} />,
     },
     {
       name: "Settings",
