@@ -1,5 +1,6 @@
 import Link from "next/link";
 import React, { useState } from "react";
+import { useRouter } from "next/router";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faBars,
@@ -47,6 +48,7 @@ export default function Layout({
   ],
 }: AdminLayoutProps) {
   const [sidebarCollapsed, setSidebarCollapsed] = useState(true);
+  const router = useRouter();
 
   return (
     <div className="min-h-screen flex bg-gray-100">
@@ -80,20 +82,28 @@ export default function Layout({
 
         {/* Nav Items */}
         <nav className="flex flex-col space-y-6 mt-4 w-full items-center">
-          {navItems.map((item) => (
-            <Link
-              key={item.path}
-              href={item.path}
-              className={`flex items-center gap-3 hover:text-blue-600 ${
-                sidebarCollapsed
-                  ? "justify-center"
-                  : "justify-start w-full px-2"
-              }`}
-            >
-              <span className="text-lg">{item.icon}</span>
-              {!sidebarCollapsed && <span>{item.name}</span>}
-            </Link>
-          ))}
+          {navItems.map((item) => {
+            const isActive = router.pathname === item.path;
+            return (
+              <Link
+                key={item.path}
+                href={item.path}
+                className={`flex items-center gap-3 hover:text-blue-600 ${
+                  sidebarCollapsed
+                    ? "justify-center"
+                    : "justify-start w-full px-2"
+                } ${isActive ? "text-blue-700 font-bold cursor-default" : ""}`}
+                onClick={(e) => {
+                  if (isActive) {
+                    e.preventDefault();
+                  }
+                }}
+              >
+                <span className="text-lg">{item.icon}</span>
+                {!sidebarCollapsed && <span>{item.name}</span>}
+              </Link>
+            );
+          })}
         </nav>
       </aside>
 
