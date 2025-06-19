@@ -11,7 +11,6 @@ import {
   faCircleUser,
   faBox,
 } from "@fortawesome/free-solid-svg-icons";
-import { faProductHunt } from "@fortawesome/free-brands-svg-icons";
 
 interface SidebarItem {
   name: string;
@@ -51,30 +50,33 @@ export default function Layout({
   const [sidebarCollapsed, setSidebarCollapsed] = useState(true);
   const router = useRouter();
 
+  // Determine sidebar width based on route and collapsed state
+  const isUsersPage = router.pathname === "/users";
+  const expandedWidth = isUsersPage
+    ? "w-[20%] min-w-[200px]"
+    : "w-[25%] min-w-[220px]";
+  const collapsedWidth = "w-[5%] min-w-[60px]";
+
   return (
     <div className="min-h-screen flex bg-gray-100">
       {/* Sidebar */}
       <aside
         className={`${
-          sidebarCollapsed ? "w-[5%]" : "w-[20%]"
+          sidebarCollapsed ? collapsedWidth : expandedWidth
         } bg-white shadow-md p-4 hidden md:flex flex-col relative transition-all duration-300`}
       >
         {/* Toggle Button */}
-        {sidebarCollapsed ? (
-          <button
-            onClick={() => setSidebarCollapsed(false)}
-            className="mb-6 flex justify-center text-gray-700"
-          >
-            <FontAwesomeIcon icon={faBars} className="text-xl" />
-          </button>
-        ) : (
-          <button
-            onClick={() => setSidebarCollapsed(true)}
-            className="absolute top-4 right-4 text-gray-700"
-          >
-            <FontAwesomeIcon icon={faXmark} className="text-xl" />
-          </button>
-        )}
+        <button
+          onClick={() => setSidebarCollapsed(!sidebarCollapsed)}
+          className={`mb-6 flex justify-center text-gray-700 ${
+            sidebarCollapsed ? "" : "absolute top-4 right-4"
+          }`}
+        >
+          <FontAwesomeIcon
+            icon={sidebarCollapsed ? faBars : faXmark}
+            className="text-xl"
+          />
+        </button>
 
         {/* Title */}
         {!sidebarCollapsed && (
@@ -95,9 +97,7 @@ export default function Layout({
                     : "justify-start w-full px-2"
                 } ${isActive ? "text-blue-700 font-bold cursor-default" : ""}`}
                 onClick={(e) => {
-                  if (isActive) {
-                    e.preventDefault();
-                  }
+                  if (isActive) e.preventDefault();
                 }}
               >
                 <span className="text-lg">{item.icon}</span>
@@ -107,21 +107,26 @@ export default function Layout({
           })}
         </nav>
       </aside>
-
-      {/* Main content */}
-      <div className="flex-1 flex flex-col">
-        {/* Top Navbar */}
-        <header className="bg-white shadow px-6 py-4 flex justify-between items-center">
-          <h1 className="text-xl font-semibold">{title}</h1>
-          <div className="flex items-center space-x-2 text-gray-700">
-            <FontAwesomeIcon icon={faCircleUser} className="text-xl" />
-            <span>{user.name}</span>
+      {/* Main Content */}
+      <main className="flex-1 flex flex-col min-w-0">
+        {/* Header */}
+        <header className="w-full bg-white shadow px-4 py-3 flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            <span className="text-xl font-bold">{title}</span>
+          </div>
+          <div className="flex items-center gap-3">
+            <FontAwesomeIcon
+              icon={faCircleUser}
+              className="text-2xl text-gray-500"
+            />
+            <span className="font-semibold">{user.name}</span>
           </div>
         </header>
-
         {/* Page Content */}
-        <main className="p-6 flex-1">{children}</main>
-      </div>
+        <section className="flex-1 p-4 md:p-8 overflow-auto">
+          {children}
+        </section>
+      </main>
     </div>
   );
 }

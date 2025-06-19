@@ -20,14 +20,14 @@ export default function Table<T extends Record<string, any>>({
   const headers = Object.keys(data[0]);
 
   return (
-    <div className="overflow-x-auto rounded-lg shadow-md border border-gray-200">
-      <table className="min-w-full border-collapse">
-        <thead className="bg-gray-100 sticky top-0 shadow">
+    <div className="w-full h-[70vh] overflow-auto rounded-lg border border-gray-200 shadow-md">
+      <table className="min-w-full text-sm border-collapse">
+        <thead className="bg-gray-100 sticky top-0 shadow z-10">
           <tr>
             {headers.map((header) => (
               <th
                 key={header}
-                className="px-6 py-3 text-left text-gray-700 font-semibold uppercase tracking-wider select-none"
+                className="px-4 py-3 text-left text-gray-700 font-semibold uppercase tracking-wider select-none whitespace-nowrap"
               >
                 {header.charAt(0).toUpperCase() + header.slice(1)}
               </th>
@@ -46,9 +46,11 @@ export default function Table<T extends Record<string, any>>({
               {headers.map((header) => (
                 <td
                   key={header}
-                  className="px-6 py-4 text-gray-800 whitespace-nowrap"
+                  className="px-4 py-2 text-gray-800 break-words whitespace-nowrap"
                 >
-                  {String(row[header])}
+                  {typeof row[header] === "object"
+                    ? JSON.stringify(row[header])
+                    : String(row[header])}
                 </td>
               ))}
             </tr>
