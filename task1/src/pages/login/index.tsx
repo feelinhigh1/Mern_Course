@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useRouter } from "next/router";
+import Link from "next/link";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -28,45 +29,53 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100 px-4">
-      <form
-        onSubmit={handleLogin}
-        className="bg-white rounded-lg shadow-md w-full max-w-md p-8"
-      >
-        <h2 className="text-3xl font-bold text-cyan-700 mb-6 text-center">
-          Admin Login
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-cyan-100 via-white to-yellow-50 px-4">
+      <div className="w-full max-w-md bg-white/70 backdrop-blur-md border border-gray-200 rounded-2xl shadow-xl p-10 flex flex-col justify-center min-h-[550px]">
+        <h2 className="text-4xl font-extrabold text-center bg-gradient-to-r from-cyan-700 to-yellow-400 text-transparent bg-clip-text mb-6">
+          Welcome Admin
         </h2>
 
         {error && (
-          <p className="mb-4 text-center text-red-500 font-medium">{error}</p>
+          <p className="mb-4 text-center text-red-500 font-semibold">{error}</p>
         )}
 
-        <input
-          type="text"
-          placeholder="Admin ID"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
-          className="w-full mb-4 px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-cyan-600 focus:border-cyan-600 text-gray-700 placeholder-gray-400 transition"
-          required
-          autoComplete="username"
-        />
-        <input
-          type="password"
-          placeholder="Password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          className="w-full mb-6 px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-cyan-600 focus:border-cyan-600 text-gray-700 placeholder-gray-400 transition"
-          required
-          autoComplete="current-password"
-        />
+        <form onSubmit={handleLogin} className="space-y-6">
+          <input
+            type="text"
+            placeholder="Admin ID"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-600 text-gray-700 placeholder-gray-400 transition"
+            required
+          />
 
-        <button
-          type="submit"
-          className="w-full bg-cyan-700 hover:bg-cyan-800 text-white font-semibold py-3 rounded-md shadow-sm transition"
-        >
-          Login
-        </button>
-      </form>
+          <div className="space-y-2">
+            <input
+              type="password"
+              placeholder="Password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-600 text-gray-700 placeholder-gray-400 transition"
+              required
+            />
+            <div className="text-right">
+              <Link
+                href="/forgot-password"
+                className="text-sm text-cyan-700 hover:underline"
+              >
+                Forgot password?
+              </Link>
+            </div>
+          </div>
+
+          <button
+            type="submit"
+            className="w-full bg-gradient-to-r from-cyan-700 to-yellow-400 hover:opacity-90 text-white font-bold py-3 rounded-lg shadow-lg transition duration-300"
+          >
+            Login
+          </button>
+        </form>
+      </div>
     </div>
   );
 }

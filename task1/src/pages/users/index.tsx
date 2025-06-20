@@ -1,5 +1,6 @@
 import User from "@/components/user/User";
 import React from "react";
+import withAuth from "@/hoc/withAuth";
 
 const index = () => {
   return (
@@ -9,4 +10,4 @@ const index = () => {
   );
 };
 
-export default index;
+export default withAuth(index);
