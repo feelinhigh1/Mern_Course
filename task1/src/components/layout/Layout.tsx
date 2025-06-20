@@ -1,5 +1,5 @@
 import Link from "next/link";
-import React, { useState } from "react";
+import React, { JSX, useState } from "react";
 import { useRouter } from "next/router";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -10,6 +10,8 @@ import {
   faGear,
   faCircleUser,
   faBox,
+  faRightFromBracket,
+  faUser,
 } from "@fortawesome/free-solid-svg-icons";
 
 interface SidebarItem {
@@ -48,10 +50,11 @@ export default function Layout({
   ],
 }: AdminLayoutProps) {
   const [sidebarCollapsed, setSidebarCollapsed] = useState(true);
+  const [dropdownOpen, setDropdownOpen] = useState(false);
   const router = useRouter();
 
-  const expandedWidth = "w-64"; // fixed 16rem (256px)
-  const collapsedWidth = "w-16"; // fixed 4rem (64px)
+  const expandedWidth = "w-64";
+  const collapsedWidth = "w-16";
 
   return (
     <div className="min-h-screen flex bg-gray-100">
@@ -59,25 +62,30 @@ export default function Layout({
       <aside
         className={`${
           sidebarCollapsed ? collapsedWidth : expandedWidth
-        } bg-white shadow-md p-4 hidden md:flex flex-col relative transition-all duration-300`}
+        } bg-cyan-700 text-white shadow-md p-4 hidden md:flex flex-col relative transition-all duration-300`}
       >
-        {/* Toggle Button */}
-        <button
-          onClick={() => setSidebarCollapsed(!sidebarCollapsed)}
-          className={`mb-6 flex justify-center text-gray-700 ${
-            sidebarCollapsed ? "" : "absolute top-4 right-4"
-          }`}
-        >
-          <FontAwesomeIcon
-            icon={sidebarCollapsed ? faBars : faXmark}
-            className="text-xl"
-          />
-        </button>
+        {/* Sidebar Header with Brand */}
+        <div className="flex items-center justify-between mb-6">
+          {!sidebarCollapsed && (
+            <Link href="/" className="text-xl font-bold">
+              MyApp
+            </Link>
+          )}
+          <button
+            onClick={() => setSidebarCollapsed(!sidebarCollapsed)}
+            className={` ${sidebarCollapsed ? "mx-auto" : ""}`}
+          >
+            <FontAwesomeIcon
+              icon={sidebarCollapsed ? faBars : faXmark}
+              className="text-xl cursor-pointer"
+            />
+          </button>
+        </div>
 
-        {/* Title */}
-        {!sidebarCollapsed && (
-          <h2 className="text-2xl font-bold mb-6 mt-10">Admin Panel</h2>
-        )}
+        {/* Title (if needed) */}
+        {/* {!sidebarCollapsed && (
+          <h2 className="text-2xl font-bold mb-6 mt-10"></h2>
+        )} */}
 
         {/* Nav Items */}
         <nav className="flex flex-col space-y-6 mt-4 w-full items-center">
@@ -87,11 +95,13 @@ export default function Layout({
               <Link
                 key={item.path}
                 href={item.path}
-                className={`flex items-center gap-3 hover:text-blue-600 ${
+                className={`flex items-center gap-3 hover:text-yellow-300 ${
                   sidebarCollapsed
                     ? "justify-center"
                     : "justify-start w-full px-2"
-                } ${isActive ? "text-blue-700 font-bold cursor-default" : ""}`}
+                } ${
+                  isActive ? "text-yellow-300 font-bold cursor-default" : ""
+                }`}
                 onClick={(e) => {
                   if (isActive) e.preventDefault();
                 }}
@@ -103,6 +113,7 @@ export default function Layout({
           })}
         </nav>
       </aside>
+
       {/* Main Content */}
       <main className="flex-1 flex flex-col min-w-0">
         {/* Header */}
@@ -110,14 +121,43 @@ export default function Layout({
           <div className="flex items-center gap-2 pl-8">
             <span className="text-xl font-bold">{title}</span>
           </div>
-          <div className="flex items-center gap-3 pr-8">
-            <FontAwesomeIcon
-              icon={faCircleUser}
-              className="text-2xl text-gray-500"
-            />
-            <span className="font-semibold">{user.name}</span>
+
+          <div className="relative flex items-center gap-3 pr-8">
+            <button
+              onClick={() => setDropdownOpen(!dropdownOpen)}
+              className="flex items-center gap-2 focus:outline-none cursor-pointer"
+            >
+              <FontAwesomeIcon
+                icon={faCircleUser}
+                className="text-2xl text-gray-500"
+              />
+              <span className="font-semibold">{user.name}</span>
+            </button>
+
+            {dropdownOpen && (
+              <div className="absolute right-0 top-12 bg-white border rounded-md shadow-md w-40 z-50">
+                <Link
+                  href="/profile"
+                  className="flex items-center px-4 py-2 hover:bg-gray-100 text-sm gap-2"
+                >
+                  <FontAwesomeIcon icon={faUser} />
+                  <span>Profile</span>
+                </Link>
+                <button
+                  onClick={() => {
+                    console.log("Logging out...");
+                    setDropdownOpen(false);
+                  }}
+                  className="w-full text-left flex items-center px-4 py-2 hover:bg-gray-100 text-sm gap-2"
+                >
+                  <FontAwesomeIcon icon={faRightFromBracket} />
+                  <span>Logout</span>
+                </button>
+              </div>
+            )}
           </div>
         </header>
+
         {/* Page Content */}
         <section className="flex-1 p-4 md:p-8 overflow-auto">
           {children}
