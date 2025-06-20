@@ -51,29 +51,38 @@ export default function Layout({
 }: AdminLayoutProps) {
   const [sidebarCollapsed, setSidebarCollapsed] = useState(true);
   const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false);
   const router = useRouter();
-
-  const expandedWidth = "w-64";
-  const collapsedWidth = "w-16";
 
   return (
     <div className="min-h-screen flex bg-gray-100">
+      {/* Overlay for mobile */}
+      {mobileSidebarOpen && (
+        <div
+          className="fixed inset-0 bg-opacity-50 z-30 md:hidden"
+          onClick={() => setMobileSidebarOpen(false)}
+        ></div>
+      )}
+
       {/* Sidebar */}
       <aside
         className={`${
-          sidebarCollapsed ? collapsedWidth : expandedWidth
-        } bg-cyan-700 text-white shadow-md p-4 hidden md:flex flex-col relative transition-all duration-300`}
+          sidebarCollapsed ? "w-16" : "md:w-64 w-16"
+        } bg-cyan-700 text-white shadow-md p-4 flex flex-col relative transition-all duration-300`}
       >
         {/* Sidebar Header with Brand */}
         <div className="flex items-center justify-between mb-6">
+          {/* Website name, visible on md+ */}
           {!sidebarCollapsed && (
-            <Link href="/" className="text-xl font-bold">
+            <Link href="/" className="hidden md:block text-xl font-bold">
               MyApp
             </Link>
           )}
+
+          {/* Hamburger toggle, visible on md+ */}
           <button
             onClick={() => setSidebarCollapsed(!sidebarCollapsed)}
-            className={` ${sidebarCollapsed ? "mx-auto" : ""}`}
+            className={`hidden md:block ${sidebarCollapsed ? "mx-auto" : ""}`}
           >
             <FontAwesomeIcon
               icon={sidebarCollapsed ? faBars : faXmark}
@@ -81,11 +90,6 @@ export default function Layout({
             />
           </button>
         </div>
-
-        {/* Title (if needed) */}
-        {/* {!sidebarCollapsed && (
-          <h2 className="text-2xl font-bold mb-6 mt-10"></h2>
-        )} */}
 
         {/* Nav Items */}
         <nav className="flex flex-col space-y-6 mt-4 w-full items-center">
@@ -107,7 +111,9 @@ export default function Layout({
                 }}
               >
                 <span className="text-lg">{item.icon}</span>
-                {!sidebarCollapsed && <span>{item.name}</span>}
+                {!sidebarCollapsed && (
+                  <span className="hidden md:inline">{item.name}</span>
+                )}
               </Link>
             );
           })}
@@ -118,7 +124,7 @@ export default function Layout({
       <main className="flex-1 flex flex-col min-w-0">
         {/* Header */}
         <header className="w-full bg-white shadow px-4 py-3 flex items-center justify-between">
-          <div className="flex items-center gap-2 pl-8">
+          <div className="flex items-center gap-2 pl-2 md:pl-8">
             <span className="text-xl font-bold">{title}</span>
           </div>
 
