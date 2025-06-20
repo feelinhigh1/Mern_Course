@@ -1,20 +1,14 @@
-// import Layout from "@/components/layout/Layout";
 import React from "react";
+import withAuth from "@/hoc/withAuth";
 
 const index = () => {
   return (
     <>
-      {/* <Layout
-        title="Dashboard"
-        user={{
-          name: "Sushan Poudel",
-          avatarUrl: "",
-        }}
-      >
-        <h2 className="text-2xl font-bold mb-4">Welcome back 👋</h2>
-      </Layout> */}
+      <div className="text-xm font-semibold text-gray-800">
+        Welcome to the Admin Dashboard 👋
+      </div>
     </>
   );
 };
 
-export default index;
+export default withAuth(index);
