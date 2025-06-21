@@ -1,5 +1,3 @@
-// This component fetches and displays user data in a table format.
-
 import React, { useEffect, useState } from "react";
 import Table from "@/components/Table";
 import { getUsers } from "@/pages/api/rest_api";
@@ -37,6 +35,14 @@ interface DisplayUser {
   company: string;
 }
 
+function Loader() {
+  return (
+    <div className="flex justify-center items-center h-full w-full">
+      <div className="w-10 h-10 border-4 border-cyan-500 border-t-transparent rounded-full animate-spin"></div>
+    </div>
+  );
+}
+
 export default function User() {
   const [users, setUsers] = useState<DisplayUser[]>([]);
   const [loading, setLoading] = useState(true);
@@ -68,7 +74,7 @@ export default function User() {
     alert(`Clicked on user: ${user.name}`);
   };
 
-  if (loading) return <p className="p-6">Loading users...</p>;
+  if (loading) return <Loader />;
   if (error) return <p className="p-6 text-red-500">Error: {error}</p>;
 
   return (

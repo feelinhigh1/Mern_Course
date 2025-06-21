@@ -1,8 +1,10 @@
-import React from "react";
-import withAuth from "@/hoc/withAuth";
+import UnderConstruction from "@/components/UnderConstruction";
 
-const index = () => {
-  return <div>Settings Page</div>;
-};
-
-export default withAuth(index);
+export default function index() {
+  return (
+    <UnderConstruction
+      title="Settings"
+      message="Settings page is under construction. Stay tuned!"
+    />
+  );
+}

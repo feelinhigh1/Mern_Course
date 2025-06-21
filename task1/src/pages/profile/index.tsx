@@ -1,7 +1,10 @@
-import React from "react";
-import withAuth from "@/hoc/withAuth";
-const index = () => {
-  return <div>This is the profile page</div>;
-};
+import UnderConstruction from "@/components/UnderConstruction";
 
-export default withAuth(index);
+export default function index() {
+  return (
+    <UnderConstruction
+      title="Profile"
+      message="Profile page is under construction. Stay tuned!"
+    />
+  );
+}

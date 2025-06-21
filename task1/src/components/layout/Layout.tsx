@@ -156,9 +156,7 @@ export default function Layout({
         </header>
 
         {/* Page Content */}
-        <section className="flex-1 p-4 md:p-8 overflow-auto">
-          {children}
-        </section>
+        <section className="flex-1  min-h-screen ">{children}</section>
       </main>
     </div>
   );
