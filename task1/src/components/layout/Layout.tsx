@@ -102,7 +102,18 @@ export default function Layout({
               >
                 <span className="text-lg">{item.icon}</span>
                 {!sidebarCollapsed && (
-                  <span className="hidden md:inline">{item.name}</span>
+                  <span
+                    className={`
+                      hidden md:inline relative 
+                      ${
+                        !isActive
+                          ? "after:absolute after:-bottom-1 after:left-0 after:w-0 after:h-[3px] after:bg-yellow-300 hover:after:w-full after:transition-all after:duration-400"
+                          : ""
+                      }
+                    `}
+                  >
+                    {item.name}
+                  </span>
                 )}
               </Link>
             );
@@ -156,7 +167,7 @@ export default function Layout({
         </header>
 
         {/* Page Content */}
-        <section className="flex-1  min-h-screen ">{children}</section>
+        <section className="flex-1 min-h-screen">{children}</section>
       </main>
     </div>
   );

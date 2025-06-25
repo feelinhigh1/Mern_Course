@@ -20,14 +20,14 @@ export default function Table<T extends Record<string, any>>({
   const headers = Object.keys(data[0]);
 
   return (
-    <div className="w-full h-[70vh] overflow-auto rounded-lg border border-gray-200 shadow-md">
-      <table className="min-w-full text-sm border-collapse">
-        <thead className="bg-gray-100 sticky top-0 shadow z-10">
+    <div className="w-full h-[70vh] overflow-auto rounded-xl border border-gray-200 shadow-xl bg-white">
+      <table className="min-w-full text-sm border-collapse table-fixed">
+        <thead className="sticky top-0 z-10 bg-gray-100">
           <tr>
             {headers.map((header) => (
               <th
                 key={header}
-                className="px-4 py-3 text-left text-gray-700 font-semibold uppercase tracking-wider select-none whitespace-nowrap"
+                className="px-4 py-3 text-left text-gray-900 font-serif font-bold uppercase tracking-wide select-none bg-gray-100"
               >
                 {header.charAt(0).toUpperCase() + header.slice(1)}
               </th>
@@ -38,15 +38,17 @@ export default function Table<T extends Record<string, any>>({
           {data.map((row, i) => (
             <tr
               key={i}
-              className={`transition-colors duration-200 ${
-                onRowClick ? "cursor-pointer" : ""
-              } ${i % 2 === 0 ? "bg-white" : "bg-gray-50"} hover:bg-blue-50`}
+              className={`
+                transition duration-150
+                ${onRowClick ? "cursor-pointer" : ""}
+                hover:bg-gray-50
+              `}
               onClick={() => onRowClick && onRowClick(row)}
             >
               {headers.map((header) => (
                 <td
                   key={header}
-                  className="px-4 py-2 text-gray-800 break-words whitespace-nowrap"
+                  className="px-4 py-2 text-gray-800 whitespace-nowrap text-[0.95rem]"
                 >
                   {typeof row[header] === "object"
                     ? JSON.stringify(row[header])

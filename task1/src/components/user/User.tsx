@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Table from "@/components/Table";
 import { getUsers } from "@/pages/api/rest_api";
+import Link from "next/link";
 
 interface Address {
   street: string;
@@ -79,7 +80,15 @@ export default function User() {
 
   return (
     <div className="p-4 md:p-6 flex flex-col items-center w-full">
-      <h1 className="text-xl md:text-2xl font-bold mb-4">Users</h1>
+      <div className="w-full flex justify-between items-center mb-4">
+        <h1 className="text-xl md:text-2xl font-bold">Users</h1>
+        <Link
+          href="/users/createUser"
+          className="bg-cyan-700 text-white font-medium px-4 py-2 rounded-lg shadow hover:bg-cyan-800 transition duration-200"
+        >
+          + Create User
+        </Link>
+      </div>
       <div className="w-full overflow-auto">
         <Table data={users} onRowClick={handleRowClick} />
       </div>
