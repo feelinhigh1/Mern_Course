@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import Table from "@/components/Table";
 import { getUsers } from "@/pages/api/rest_api";
 import Link from "next/link";
+import router from "next/router";
 
 interface Address {
   street: string;
@@ -75,6 +76,21 @@ export default function User() {
     alert(`Clicked on user: ${user.name}`);
   };
 
+  const handleEdit = (user: DisplayUser) => {
+    router.push(`/users/edit/${user.id}`);
+  };
+
+  const handleDelete = (user: DisplayUser) => {
+    const confirmDelete = confirm(
+      `Are you sure you want to delete ${user.name}?`
+    );
+    if (confirmDelete) {
+      // Call API to delete user and update state
+      alert(`Deleted user: ${user.name}`);
+      setUsers((prev) => prev.filter((u) => u.id !== user.id));
+    }
+  };
+
   if (loading) return <Loader />;
   if (error) return <p className="p-6 text-red-500">Error: {error}</p>;
 
@@ -90,7 +106,12 @@ export default function User() {
         </Link>
       </div>
       <div className="w-full overflow-auto">
-        <Table data={users} onRowClick={handleRowClick} />
+        <Table
+          data={users}
+          onRowClick={handleRowClick}
+          onEdit={handleEdit}
+          onDelete={handleDelete}
+        />
       </div>
     </div>
   );
