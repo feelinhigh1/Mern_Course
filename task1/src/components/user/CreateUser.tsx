@@ -1,5 +1,8 @@
 import React, { useState } from "react";
 
+import axios from "axios";
+import router from "next/router";
+
 const CreateUser = () => {
   const [formData, setFormData] = useState({
     name: "",
@@ -16,10 +19,37 @@ const CreateUser = () => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  // const handleSubmit = (e: React.FormEvent) => {
+  //   e.preventDefault();
+  //   console.log("User Created:", formData);
+  //   // submit to API here
+  // };
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("User Created:", formData);
-    // submit to API here
+
+    const userPayload = {
+      name: formData.name,
+      email: formData.email,
+      username: formData.username,
+      phone: formData.phone,
+      website: formData.website,
+      address: {
+        street: formData.street,
+        city: formData.city,
+      },
+      company: {
+        name: formData.company,
+      },
+    };
+
+    try {
+      await axios.post("http://localhost:3000/api/users", userPayload); // ← your Express API endpoint
+      router.push("/users"); // redirect after success
+    } catch (err) {
+      console.error("Failed to create user", err);
+      alert("Failed to create user");
+    }
   };
 
   return (

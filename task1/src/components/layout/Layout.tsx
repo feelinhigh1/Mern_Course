@@ -39,6 +39,11 @@ export default function Layout({
     { name: "Dashboard", path: "/", icon: <FontAwesomeIcon icon={faGauge} /> },
     { name: "Users", path: "/users", icon: <FontAwesomeIcon icon={faUsers} /> },
     {
+      name: "Role",
+      path: "/role",
+      icon: <FontAwesomeIcon icon={faUser} />,
+    },
+    {
       name: "Products",
       path: "/products",
       icon: <FontAwesomeIcon icon={faBox} />,
