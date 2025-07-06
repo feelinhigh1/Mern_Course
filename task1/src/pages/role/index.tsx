@@ -4,6 +4,7 @@ import Table from "@/components/Table";
 import { getRoles, deleteRole } from "@/pages/api/rest_api";
 import withAuth from "@/hoc/withAuth";
 import Link from "next/link";
+import router from "next/router";
 
 interface DisplayRole {
   id: string | number;
@@ -35,6 +36,14 @@ const RoleTable = () => {
     }
   };
 
+  const handleRowClick = (role: DisplayRole) => {
+    alert(`Clicked on user: ${role.name}`);
+  };
+
+  const handleEdit = (role: DisplayRole) => {
+    router.push(`/role/edit/${role.id}`);
+  };
+
   useEffect(() => {
     fetchRoles();
   }, []);
@@ -50,7 +59,12 @@ const RoleTable = () => {
           + Create Role
         </Link>
       </div>
-      <Table data={roles} onDelete={handleDelete} />
+      <Table
+        data={roles}
+        onDelete={handleDelete}
+        onRowClick={handleRowClick}
+        onEdit={handleEdit}
+      />
     </div>
   );
 };
