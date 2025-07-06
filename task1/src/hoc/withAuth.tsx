@@ -1,7 +1,11 @@
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 
-const PUBLIC_ROUTES = ["/login", "/forgot-password", "/reset-password"];
+const PUBLIC_ROUTES = [
+  "/auth/login",
+  "/auth/forgot-password",
+  "/auth/reset-password",
+];
 
 export default function withAuth<P>(WrappedComponent: React.ComponentType<P>) {
   return function ProtectedComponent(props: P) {
@@ -19,7 +23,7 @@ export default function withAuth<P>(WrappedComponent: React.ComponentType<P>) {
 
       // Protected route — check for token
       if (!token) {
-        router.replace("/login");
+        router.replace("/auth/login");
       } else {
         setAuthorized(true);
       }
