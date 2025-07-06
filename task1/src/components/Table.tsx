@@ -15,7 +15,7 @@ export default function Table<T extends Record<string, any>>({
 }: TableProps<T>) {
   if (!data || data.length === 0) {
     return (
-      <div className="p-6 text-center text-gray-500 italic">
+      <div className="p-6 text-center text-gray-500 italic bg-white rounded-xl shadow-sm font-sans">
         No data available.
       </div>
     );
@@ -24,61 +24,71 @@ export default function Table<T extends Record<string, any>>({
   const headers = Object.keys(data[0]);
 
   return (
-    <div className="w-full h-[70vh] overflow-auto rounded-xl border border-gray-200 shadow-xl bg-white">
-      <table className="min-w-full text-sm border-collapse table-fixed">
-        <thead className="sticky top-0 z-10 bg-gray-100">
+    <div
+      className="w-full h-[70vh] overflow-auto rounded-2xl border border-gray-300 shadow-md bg-white"
+      style={{ fontFamily: '"Segoe UI", Tahoma, Geneva, Verdana, sans-serif' }} // header font
+    >
+      <table className="min-w-full text-sm table-fixed border-collapse">
+        <thead className="sticky top-0 z-10 bg-cyan-700 text-white">
           <tr>
             {headers.map((header) => (
               <th
                 key={header}
-                className="px-4 py-3 text-left text-gray-900 font-serif font-bold uppercase tracking-wide select-none bg-gray-100"
+                className="px-6 py-4 text-center text-base font-semibold tracking-wide border-b border-gray-700"
               >
                 {header.charAt(0).toUpperCase() + header.slice(1)}
               </th>
             ))}
-            <th className="px-4 py-3 text-left text-gray-900 font-serif font-bold uppercase tracking-wide select-none bg-gray-100">
+            <th className="px-6 py-4 text-center text-base font-semibold tracking-wide border-b border-gray-700">
               Action
             </th>
           </tr>
         </thead>
-        <tbody>
+        <tbody
+          className="divide-y divide-gray-200"
+          style={{
+            fontFamily: '"Roboto", "Helvetica Neue", Arial, sans-serif',
+          }} // data font
+        >
           {data.map((row, i) => (
             <tr
               key={i}
               className={`transition duration-150 ${
                 onRowClick ? "cursor-pointer" : ""
-              } hover:bg-gray-50`}
+              } even:bg-gray-50 hover:bg-gray-100`}
               onClick={() => onRowClick && onRowClick(row)}
             >
               {headers.map((header) => (
                 <td
                   key={header}
-                  className="px-4 py-2 text-gray-800 whitespace-nowrap text-[0.95rem]"
+                  className="px-6 py-3 text-center text-gray-800 whitespace-nowrap text-sm"
                 >
                   {typeof row[header] === "object"
                     ? JSON.stringify(row[header])
                     : String(row[header])}
                 </td>
               ))}
-              <td className="px-4 py-2 space-x-2">
-                <button
-                  onClick={(e) => {
-                    e.stopPropagation(); // prevent row click
-                    onEdit?.(row);
-                  }}
-                  className="text-blue-600 hover:text-blue-800"
-                >
-                  Edit
-                </button>
-                <button
-                  onClick={(e) => {
-                    e.stopPropagation(); // prevent row click
-                    onDelete?.(row);
-                  }}
-                  className="text-red-600 hover:text-red-800"
-                >
-                  Delete
-                </button>
+              <td className="px-6 py-3 text-center whitespace-nowrap">
+                <div className="flex justify-center gap-2">
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      onEdit?.(row);
+                    }}
+                    className="px-3 py-1.5 rounded-md bg-blue-600 text-white text-xs font-medium hover:bg-blue-700 transition shadow-sm"
+                  >
+                    Edit
+                  </button>
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      onDelete?.(row);
+                    }}
+                    className="px-3 py-1.5 rounded-md bg-red-600 text-white text-xs font-medium hover:bg-red-700 transition shadow-sm"
+                  >
+                    Delete
+                  </button>
+                </div>
               </td>
             </tr>
           ))}

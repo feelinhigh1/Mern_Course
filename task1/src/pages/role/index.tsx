@@ -1,4 +1,3 @@
-// components/role/Table.tsx
 import React, { useEffect, useState } from "react";
 import Table from "@/components/Table";
 import { getRoles, deleteRole } from "@/pages/api/rest_api";
@@ -24,11 +23,11 @@ const RoleTable = () => {
     }
   };
 
-  const handleDelete = async (role: any) => {
+  const handleDelete = async (role: DisplayRole) => {
     if (confirm(`Are you sure you want to delete role: ${role.name}?`)) {
       try {
-        await deleteRole(role.id); // 👈 API call to delete
-        setRoles((prev) => prev.filter((r) => r.id !== role.id)); // 👈 update UI
+        await deleteRole(role.id);
+        setRoles((prev) => prev.filter((r) => r.id !== role.id));
       } catch (error) {
         console.error("Delete failed:", error);
         alert("Failed to delete role.");
@@ -37,7 +36,7 @@ const RoleTable = () => {
   };
 
   const handleRowClick = (role: DisplayRole) => {
-    alert(`Clicked on user: ${role.name}`);
+    alert(`Clicked on role: ${role.name}`);
   };
 
   const handleEdit = (role: DisplayRole) => {
@@ -49,9 +48,9 @@ const RoleTable = () => {
   }, []);
 
   return (
-    <div className="w-full h-full p-4 md:p-6">
-      <div className="flex justify-between items-center mb-6">
-        <h1 className="text-2xl md:text-3xl font-bold text-gray-800">Roles</h1>
+    <div className="p-4 md:p-6 flex flex-col items-center w-full">
+      <div className="w-full flex justify-between items-center mb-4">
+        <h1 className="text-xl md:text-2xl font-bold">Roles</h1>
         <Link
           href="/role/create"
           className="bg-cyan-700 text-white font-medium px-4 py-2 rounded-lg shadow hover:bg-cyan-800 transition duration-200"
@@ -59,12 +58,14 @@ const RoleTable = () => {
           + Create Role
         </Link>
       </div>
-      <Table
-        data={roles}
-        onDelete={handleDelete}
-        onRowClick={handleRowClick}
-        onEdit={handleEdit}
-      />
+      <div className="w-full overflow-auto">
+        <Table
+          data={roles}
+          onDelete={handleDelete}
+          onRowClick={handleRowClick}
+          onEdit={handleEdit}
+        />
+      </div>
     </div>
   );
 };
