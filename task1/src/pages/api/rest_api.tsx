@@ -8,6 +8,18 @@ export async function getUsers() {
   return res.json();
 }
 
+export async function deleteUser(id: number) {
+  const res = await fetch(`${baseUrl}/users/${id}`, {
+    method: "DELETE",
+  });
+
+  if (!res.ok) {
+    throw new Error("Failed to delete user");
+  }
+
+  return res.json();
+}
+
 export async function getRoles() {
   const res = await fetch(`${baseUrl}/role`);
   if (!res.ok) {

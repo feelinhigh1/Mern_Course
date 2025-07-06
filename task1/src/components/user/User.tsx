@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Table from "@/components/Table";
-import { getUsers } from "@/pages/api/rest_api";
+import { getUsers, deleteUser } from "@/pages/api/rest_api";
 import Link from "next/link";
 import router from "next/router";
 
@@ -80,14 +80,18 @@ export default function User() {
     router.push(`/users/edit/${user.id}`);
   };
 
-  const handleDelete = (user: DisplayUser) => {
+  const handleDelete = async (user: DisplayUser) => {
     const confirmDelete = confirm(
       `Are you sure you want to delete ${user.name}?`
     );
     if (confirmDelete) {
-      // Call API to delete user and update state
-      alert(`Deleted user: ${user.name}`);
-      setUsers((prev) => prev.filter((u) => u.id !== user.id));
+      try {
+        await deleteUser(user.id);
+        setUsers((prev) => prev.filter((u) => u.id !== user.id));
+      } catch (err) {
+        alert("Failed to delete user.");
+        console.error(err);
+      }
     }
   };
 
