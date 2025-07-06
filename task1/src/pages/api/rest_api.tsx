@@ -27,3 +27,15 @@ export async function getRoles() {
   }
   return res.json();
 }
+
+export async function deleteRole(id: number) {
+  const res = await fetch(`${baseUrl}/role/${id}`, {
+    method: "DELETE",
+  });
+
+  if (!res.ok) {
+    throw new Error("Failed to delete role");
+  }
+
+  return res.json();
+}
