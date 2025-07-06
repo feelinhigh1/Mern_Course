@@ -39,3 +39,19 @@ export async function deleteRole(id: number) {
 
   return res.json();
 }
+
+export async function createRole(role: { name: string; description: string }) {
+  const res = await fetch(`${baseUrl}/role`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(role),
+  });
+
+  if (!res.ok) {
+    throw new Error("Failed to create role");
+  }
+
+  return res.json();
+}

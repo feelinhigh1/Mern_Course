@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import Table from "@/components/Table";
 import { getRoles, deleteRole } from "@/pages/api/rest_api";
 import withAuth from "@/hoc/withAuth";
+import Link from "next/link";
 
 interface DisplayRole {
   id: string | number;
@@ -42,6 +43,12 @@ const RoleTable = () => {
     <div className="w-full h-full p-4 md:p-6">
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-2xl md:text-3xl font-bold text-gray-800">Roles</h1>
+        <Link
+          href="/role/create"
+          className="bg-cyan-700 text-white font-medium px-4 py-2 rounded-lg shadow hover:bg-cyan-800 transition duration-200"
+        >
+          + Create Role
+        </Link>
       </div>
       <Table data={roles} onDelete={handleDelete} />
     </div>

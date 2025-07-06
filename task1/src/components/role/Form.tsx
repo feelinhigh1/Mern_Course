@@ -1,13 +1,27 @@
 import React, { useState } from "react";
+import { useRouter } from "next/router";
+import { createRole } from "@/pages/api/rest_api"; // adjust path as needed
 
 const RoleForm: React.FC = () => {
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const router = useRouter();
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("Submitted:", { name, description });
-    // You can send the data to an API here
+    setLoading(true);
+    setError(null);
+
+    try {
+      await createRole({ name, description });
+      router.push("/role"); // 🔁 Redirect on success
+    } catch (err) {
+      setError("Failed to create role.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -16,6 +30,8 @@ const RoleForm: React.FC = () => {
       className="max-w-md mx-auto mt-10 space-y-4 p-6 bg-white shadow-md rounded-lg"
     >
       <h2 className="text-2xl font-semibold mb-4 text-center">Role Form</h2>
+
+      {error && <p className="text-red-600 text-center">{error}</p>}
 
       <div>
         <label className="block text-sm font-medium text-gray-700 mb-1">
@@ -46,9 +62,10 @@ const RoleForm: React.FC = () => {
 
       <button
         type="submit"
-        className="w-full bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700 transition"
+        disabled={loading}
+        className="w-full bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700 transition disabled:opacity-50"
       >
-        Submit
+        {loading ? "Submitting..." : "Submit"}
       </button>
     </form>
   );

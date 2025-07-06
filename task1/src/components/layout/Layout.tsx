@@ -158,7 +158,7 @@ export default function Layout({
                 <button
                   onClick={() => {
                     localStorage.removeItem("token");
-                    router.push("auth/login");
+                    router.push("/auth/login");
                     setDropdownOpen(false);
                   }}
                   className="w-full text-left flex items-center px-4 py-2 hover:bg-gray-100 text-sm gap-2"
