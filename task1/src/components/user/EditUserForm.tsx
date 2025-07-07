@@ -28,7 +28,7 @@ export default function EditUserForm({ id }: EditUserFormProps) {
 
   useEffect(() => {
     if (id) {
-      fetch(`https://jsonplaceholder.typicode.com/users/${id}`)
+      fetch(`http://localhost:3000/api/users/${id}`)
         .then((res) => res.json())
         .then((data) => {
           setUser(data);
@@ -53,14 +53,31 @@ export default function EditUserForm({ id }: EditUserFormProps) {
     }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    // Simulated API update
-    console.log("Updated user:", { id, ...form });
+    try {
+      const response = await fetch(`http://localhost:3000/api/users/${id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(form), // only name, email, phone being sent
+      });
 
-    alert("User updated successfully!");
-    router.push("/users");
+      if (!response.ok) {
+        throw new Error("Failed to update user");
+      }
+
+      const updatedUser = await response.json();
+      console.log("Updated user:", updatedUser);
+
+      alert("User updated successfully!");
+      router.push("/users");
+    } catch (error) {
+      console.error("Update failed:", error);
+      alert("An error occurred while updating the user.");
+    }
   };
 
   if (loading) return <p className="p-6">Loading user data...</p>;

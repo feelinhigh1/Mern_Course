@@ -15,7 +15,7 @@ export default function Table<T extends Record<string, any>>({
 }: TableProps<T>) {
   if (!data || data.length === 0) {
     return (
-      <div className="p-6 text-center text-gray-500 italic bg-white rounded-xl shadow-sm font-sans">
+      <div className="p-6 text-center text-gray-500 italic font-sans text-xl align-middle">
         No data available.
       </div>
     );
