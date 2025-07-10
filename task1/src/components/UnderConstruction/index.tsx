@@ -7,7 +7,7 @@ interface Props {
 
 export default function UnderConstructionPage({ title, message }: Props) {
   return (
-    <div className="min-h-screen flex items-center justify-center px-4 bg-gray-50">
+    <div className=" flex mt-20 justify-center px-4 ">
       <div className="w-full max-w-md bg-white/70 backdrop-blur-md border border-gray-200 rounded-2xl shadow-xl p-10 text-center">
         <h2 className="text-4xl font-extrabold bg-gradient-to-r from-cyan-700 to-yellow-400 text-transparent bg-clip-text mb-4">
           {title}
