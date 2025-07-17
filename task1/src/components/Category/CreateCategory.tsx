@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import { useRouter } from "next/router";
-import { createRole } from "@/pages/api/rest_api"; // adjust path as needed
+import { createCategory } from "@/pages/api/rest_api"; // adjust path if needed
 
-const RoleForm: React.FC = () => {
+const CategoryForm: React.FC = () => {
   const [name, setName] = useState("");
-  const [description, setDescription] = useState("");
+  const [title, setTitle] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const router = useRouter();
@@ -15,10 +15,10 @@ const RoleForm: React.FC = () => {
     setError(null);
 
     try {
-      await createRole({ name, description });
-      router.push("/roles"); // 🔁 Redirect on success
+      await createCategory({ name, title });
+      router.push("/categories"); // Redirect to category list on success
     } catch (err) {
-      setError("Failed to create role.");
+      setError("Failed to create category.");
     } finally {
       setLoading(false);
     }
@@ -29,41 +29,44 @@ const RoleForm: React.FC = () => {
       onSubmit={handleSubmit}
       className="max-w-md mx-auto mt-10 space-y-4 p-6 bg-white shadow-md rounded-lg"
     >
-      <h2 className="text-2xl font-semibold mb-4 text-center">Role Form</h2>
+      <h2 className="text-2xl font-semibold mb-4 text-center">
+        Create Category
+      </h2>
 
       {error && <p className="text-red-600 text-center">{error}</p>}
 
       <div>
         <label className="block text-sm font-medium text-gray-700 mb-1">
-          Role Name
+          Category Name
         </label>
         <input
           type="text"
-          className="w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-cyan-500"
           value={name}
           onChange={(e) => setName(e.target.value)}
-          placeholder="Enter role name"
+          placeholder="Enter category name"
           required
         />
       </div>
 
       <div>
         <label className="block text-sm font-medium text-gray-700 mb-1">
-          Description
+          Title
         </label>
         <input
           type="text"
-          className="w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-          value={description}
-          onChange={(e) => setDescription(e.target.value)}
-          placeholder="Enter description"
+          className="w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-cyan-500"
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
+          placeholder="Enter category title"
+          required
         />
       </div>
 
       <button
         type="submit"
         disabled={loading}
-        className="w-full bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700 transition disabled:opacity-50"
+        className="w-full bg-cyan-700 text-white py-2 rounded-md hover:bg-cyan-800 transition disabled:opacity-50"
       >
         {loading ? "Submitting..." : "Submit"}
       </button>
@@ -71,4 +74,4 @@ const RoleForm: React.FC = () => {
   );
 };
 
-export default RoleForm;
+export default CategoryForm;

@@ -11,7 +11,7 @@ interface DisplayRole {
   description: string;
 }
 
-const RoleTable = () => {
+const Role = () => {
   const [roles, setRoles] = useState<DisplayRole[]>([]);
 
   const fetchRoles = async () => {
@@ -40,7 +40,7 @@ const RoleTable = () => {
   };
 
   const handleEdit = (role: DisplayRole) => {
-    router.push(`/role/edit/${role.id}`);
+    router.push(`/roles/edit/${role.id}`);
   };
 
   useEffect(() => {
@@ -52,7 +52,7 @@ const RoleTable = () => {
       <div className="w-full flex justify-between items-center mb-4">
         <h1 className="text-xl md:text-2xl font-bold">Roles</h1>
         <Link
-          href="/role/create"
+          href="/roles/create"
           className="bg-cyan-700 text-white font-medium px-4 py-2 rounded-lg shadow hover:bg-cyan-800 transition duration-200"
         >
           + Create Role
@@ -70,4 +70,4 @@ const RoleTable = () => {
   );
 };
 
-export default withAuth(RoleTable);
+export default withAuth(Role);

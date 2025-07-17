@@ -1,42 +1,42 @@
-// components/EditRoleForm.tsx
+// components/EditCategoryForm.tsx
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 
-interface EditRoleFormProps {
+interface EditCategoryFormProps {
   id: string | string[] | undefined;
 }
 
-interface RoleType {
+interface CategoryType {
   id: number;
   name: string;
-  description: string;
+  title: string;
 }
 
-export default function EditRoleForm({ id }: EditRoleFormProps) {
+export default function EditCategoryForm({ id }: EditCategoryFormProps) {
   const router = useRouter();
-  const [role, setRole] = useState<RoleType | null>(null);
+  const [category, setCategory] = useState<CategoryType | null>(null);
   const [form, setForm] = useState({
     name: "",
-    description: "",
+    title: "",
   });
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     if (id) {
-      fetch(`http://localhost:3000/api/role/${id}`)
+      fetch(`http://localhost:3000/api/categories/${id}`)
         .then((res) => res.json())
         .then((data) => {
-          setRole(data);
+          setCategory(data);
           setForm({
             name: data.name,
-            description: data.description,
+            title: data.title,
           });
           setLoading(false);
         })
         .catch(() => {
-          alert("Failed to load role");
-          router.push("/roles");
+          alert("Failed to load category");
+          router.push("/categories");
         });
     }
   }, [id]);
@@ -54,31 +54,36 @@ export default function EditRoleForm({ id }: EditRoleFormProps) {
     e.preventDefault();
 
     try {
-      const response = await fetch(`http://localhost:3000/api/role/${id}`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(form),
-      });
+      const response = await fetch(
+        `http://localhost:3000/api/categories/${id}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(form),
+        }
+      );
 
       if (!response.ok) {
-        throw new Error("Failed to update role");
+        throw new Error("Failed to update category");
       }
 
-      alert("Role updated successfully!");
-      router.push("/roles");
+      alert("Category updated successfully!");
+      router.push("/categories");
     } catch (error) {
-      console.error("Error updating role:", error);
-      alert("Failed to update role. Please try again.");
+      console.error("Error updating category:", error);
+      alert("Failed to update category. Please try again.");
     }
   };
 
-  if (loading) return <p className="p-6">Loading role data...</p>;
+  if (loading) return <p className="p-6">Loading category data...</p>;
 
   return (
     <div className="p-6 max-w-xl mx-auto">
-      <h1 className="text-2xl font-bold mb-6">Edit Role: {role?.name}</h1>
+      <h1 className="text-2xl font-bold mb-6">
+        Edit Category: {category?.name}
+      </h1>
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
           <label className="block font-medium mb-1">Name</label>
@@ -93,10 +98,10 @@ export default function EditRoleForm({ id }: EditRoleFormProps) {
         </div>
 
         <div>
-          <label className="block font-medium mb-1">Description</label>
+          <label className="block font-medium mb-1">Title</label>
           <textarea
-            name="description"
-            value={form.description}
+            name="title"
+            value={form.title}
             onChange={handleChange}
             required
             className="w-full border px-3 py-2 rounded-md shadow-sm"
@@ -107,13 +112,13 @@ export default function EditRoleForm({ id }: EditRoleFormProps) {
         <div className="flex gap-4 mt-6">
           <button
             type="submit"
-            className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition"
+            className="bg-cyan-700 text-white px-4 py-2 rounded-md hover:bg-cyan-800 transition"
           >
             Save Changes
           </button>
           <button
             type="button"
-            onClick={() => router.push("/roles")}
+            onClick={() => router.push("/categories")}
             className="bg-gray-300 text-gray-800 px-4 py-2 rounded-md hover:bg-gray-400 transition"
           >
             Cancel

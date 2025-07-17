@@ -1,4 +1,4 @@
-import CreateUser from "@/components/user/CreateUser";
+import CreateUser from "@/components/User/CreateUser";
 import React from "react";
 
 const createUser = () => {

@@ -1,4 +1,4 @@
-import EditUserForm from "@/components/user/EditUserForm";
+import EditUserForm from "@/components/User/EditUserForm";
 import { useRouter } from "next/router";
 
 export default function EditUserPage() {

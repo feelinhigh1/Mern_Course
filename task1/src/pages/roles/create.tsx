@@ -1,4 +1,4 @@
-import RoleForm from "@/components/role/Form";
+import RoleForm from "@/components/Role/Form";
 import React from "react";
 
 const create = () => {

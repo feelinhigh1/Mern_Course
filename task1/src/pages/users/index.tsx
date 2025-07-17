@@ -1,4 +1,4 @@
-import User from "@/components/user/User";
+import User from "@/components/User/User";
 import React from "react";
 import withAuth from "@/hoc/withAuth";
 

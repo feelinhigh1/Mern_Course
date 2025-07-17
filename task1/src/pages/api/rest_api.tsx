@@ -55,3 +55,42 @@ export async function createRole(role: { name: string; description: string }) {
 
   return res.json();
 }
+
+export async function getCategories() {
+  const res = await fetch(`${baseUrl}/categories`);
+  if (!res.ok) {
+    throw new Error("Failed to fetch categories");
+  }
+  return res.json();
+}
+
+export async function deleteCategory(id: number) {
+  const res = await fetch(`${baseUrl}/categories/${id}`, {
+    method: "DELETE",
+  });
+
+  if (!res.ok) {
+    throw new Error("Failed to delete category");
+  }
+
+  return res.json();
+}
+
+export async function createCategory(category: {
+  name: string;
+  title: string;
+}) {
+  const res = await fetch(`${baseUrl}/categories`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(category),
+  });
+
+  if (!res.ok) {
+    throw new Error("Failed to create category");
+  }
+
+  return res.json();
+}

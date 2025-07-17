@@ -13,6 +13,8 @@ import {
   faBox,
   faRightFromBracket,
   faUser,
+  faLayerGroup,
+  faBlog,
 } from "@fortawesome/free-solid-svg-icons";
 
 interface SidebarItem {
@@ -40,8 +42,18 @@ export default function Layout({
     { name: "Users", path: "/users", icon: <FontAwesomeIcon icon={faUsers} /> },
     {
       name: "Role",
-      path: "/role",
+      path: "/roles",
       icon: <FontAwesomeIcon icon={faUser} />,
+    },
+    {
+      name: "Categories",
+      path: "/categories",
+      icon: <FontAwesomeIcon icon={faLayerGroup} />,
+    },
+    {
+      name: "Blogs",
+      path: "/blogs",
+      icon: <FontAwesomeIcon icon={faBlog} />,
     },
     {
       name: "Products",

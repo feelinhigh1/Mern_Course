@@ -1,4 +1,4 @@
-import EditRoleForm from "@/components/role/EditRoleForm";
+import EditRoleForm from "@/components/Role/EditRoleForm";
 import { useRouter } from "next/router";
 
 export default function EditRolePage() {

@@ -212,6 +212,7 @@ const CreateUser = () => {
           <button
             type="submit"
             className="bg-cyan-700 text-white px-6 py-2 rounded-md font-medium hover:bg-cyan-800 transition"
+            onClick={handleSubmit}
           >
             Create User
           </button>

@@ -1,10 +1,10 @@
-import Table from "@/components/role/Table";
+import Category from "@/components/Category/Category";
 import React from "react";
 
 const index = () => {
   return (
     <div>
-      <Table />
+      <Category />
     </div>
   );
 };
