@@ -51,8 +51,10 @@ export default function User() {
   const [error, setError] = useState("");
 
   useEffect(() => {
-    getUsers()
-      .then((data: UserType[]) => {
+    const fetchUsers = async () => {
+      try {
+        const data: UserType[] = await getUsers();
+
         const formatted = data.map((user) => ({
           id: user.id,
           name: user.name,
@@ -63,13 +65,16 @@ export default function User() {
           address: `${user.address.street}, ${user.address.city}`,
           company: user.company.name,
         }));
+
         setUsers(formatted);
         setLoading(false);
-      })
-      .catch((err) => {
+      } catch (err: any) {
         setError(err.message || "Failed to fetch users");
         setLoading(false);
-      });
+      }
+    };
+
+    fetchUsers();
   }, []);
 
   const handleRowClick = (user: DisplayUser) => {

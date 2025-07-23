@@ -1,5 +1,5 @@
 import React from "react";
-import CreateCategory from "@/components/Category/CreateCategory"; // adjust path if needed
+import CreateCategory from "@/components/Category/CreateCategory";
 
 const createCategory = () => {
   return (
