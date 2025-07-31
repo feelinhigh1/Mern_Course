@@ -15,6 +15,7 @@ import {
   faUser,
   faLayerGroup,
   faBlog,
+  faFileLines,
 } from "@fortawesome/free-solid-svg-icons";
 
 interface SidebarItem {
@@ -54,6 +55,11 @@ export default function Layout({
       name: "Blogs",
       path: "/blogs",
       icon: <FontAwesomeIcon icon={faBlog} />,
+    },
+    {
+      name: "Posts",
+      path: "/post",
+      icon: <FontAwesomeIcon icon={faFileLines} />,
     },
     {
       name: "Products",

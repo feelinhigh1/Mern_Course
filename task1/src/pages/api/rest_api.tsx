@@ -94,3 +94,23 @@ export async function createCategory(category: {
 
   return res.json();
 }
+
+export async function getPosts() {
+  const res = await fetch(`${baseUrl}/post`);
+  if (!res.ok) {
+    throw new Error("Failed to fetch posts");
+  }
+  return res.json();
+}
+
+export async function deletePost(id: number) {
+  const res = await fetch(`${baseUrl}/post/${id}`, {
+    method: "DELETE",
+  });
+
+  if (!res.ok) {
+    throw new Error("Failed to delete post");
+  }
+
+  return res.json();
+}
