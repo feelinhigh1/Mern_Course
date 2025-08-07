@@ -14,7 +14,6 @@ import {
   faRightFromBracket,
   faUser,
   faLayerGroup,
-  faBlog,
   faFileLines,
 } from "@fortawesome/free-solid-svg-icons";
 
@@ -50,11 +49,6 @@ export default function Layout({
       name: "Categories",
       path: "/categories",
       icon: <FontAwesomeIcon icon={faLayerGroup} />,
-    },
-    {
-      name: "Blogs",
-      path: "/blogs",
-      icon: <FontAwesomeIcon icon={faBlog} />,
     },
     {
       name: "Posts",

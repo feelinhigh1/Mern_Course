@@ -36,9 +36,9 @@ const Post = () => {
     }
   };
 
-  const handleRowClick = (post: DisplayPost) => {
-    alert(`Clicked on post: ${post.title}`);
-  };
+  // const handleRowClick = (post: DisplayPost) => {
+  //   alert(`Clicked on post: ${post.title}`);
+  // };
 
   const handleEdit = (post: DisplayPost) => {
     router.push(`/post/edit/${post.id}`);
@@ -63,7 +63,7 @@ const Post = () => {
         <Table
           data={posts}
           onDelete={handleDelete}
-          onRowClick={handleRowClick}
+          // onRowClick={handleRowClick}
           onEdit={handleEdit}
         />
       </div>
