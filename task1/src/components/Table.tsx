@@ -1,10 +1,14 @@
-import React from "react";
+import React, { useState } from "react";
 
 interface TableProps<T> {
   data: T[];
   onRowClick?: (row: T) => void;
   onEdit?: (row: T) => void;
   onDelete?: (row: T) => void;
+  pagination?: {
+    pageSize: number;
+    total: number;
+  };
 }
 
 export default function Table<T extends Record<string, any>>({
@@ -12,21 +16,31 @@ export default function Table<T extends Record<string, any>>({
   onRowClick,
   onEdit,
   onDelete,
+  pagination,
 }: TableProps<T>) {
+  const [currentPage, setCurrentPage] = useState(1);
+  const pageSize = pagination?.pageSize || 10;
+  const total = pagination?.total || data.length;
+  const totalPages = Math.ceil(total / pageSize);
+
   if (!data || data.length === 0) {
     return (
-      <div className="p-6 text-center text-gray-500 italic font-sans text-xl align-middle">
+      <div className="p-6 text-center text-gray-500 italic font-sans text-xl">
         No data available.
       </div>
     );
   }
 
   const headers = Object.keys(data[0]);
+  const paginatedData = data.slice(
+    (currentPage - 1) * pageSize,
+    currentPage * pageSize
+  );
 
   return (
     <div
       className="w-full h-[70vh] overflow-auto rounded-2xl border border-gray-300 shadow-md bg-white"
-      style={{ fontFamily: '"Segoe UI", Tahoma, Geneva, Verdana, sans-serif' }} // header font
+      style={{ fontFamily: '"Segoe UI", Tahoma, Geneva, Verdana, sans-serif' }}
     >
       <table className="min-w-full text-sm table-fixed border-collapse">
         <thead className="sticky top-0 z-10 bg-cyan-700 text-white">
@@ -48,9 +62,9 @@ export default function Table<T extends Record<string, any>>({
           className="divide-y divide-gray-200"
           style={{
             fontFamily: '"Roboto", "Helvetica Neue", Arial, sans-serif',
-          }} // data font
+          }}
         >
-          {data.map((row, i) => (
+          {paginatedData.map((row, i) => (
             <tr
               key={i}
               className={`transition duration-150 ${
@@ -94,6 +108,39 @@ export default function Table<T extends Record<string, any>>({
           ))}
         </tbody>
       </table>
+
+      {/* Pagination */}
+      <div className="flex items-center justify-center space-x-2 mt-4 p-4">
+        <button
+          className="px-3 py-1 border rounded-md text-gray-600 hover:bg-gray-100 disabled:opacity-50"
+          onClick={() => setCurrentPage((p) => p - 1)}
+          disabled={currentPage === 1}
+        >
+          Prev
+        </button>
+
+        {Array.from({ length: totalPages }, (_, idx) => idx + 1).map((page) => (
+          <button
+            key={page}
+            onClick={() => setCurrentPage(page)}
+            className={`px-3 py-1 border rounded-md ${
+              currentPage === page
+                ? "bg-green-600 text-white"
+                : "hover:bg-gray-100"
+            }`}
+          >
+            {page}
+          </button>
+        ))}
+
+        <button
+          className="px-3 py-1 border rounded-md text-gray-600 hover:bg-gray-100 disabled:opacity-50"
+          onClick={() => setCurrentPage((p) => p + 1)}
+          disabled={currentPage === totalPages}
+        >
+          Next
+        </button>
+      </div>
     </div>
   );
 }

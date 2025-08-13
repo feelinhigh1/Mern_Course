@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Table from "@/components/Table";
 import { getCategories, deleteCategory } from "@/pages/api/rest_api";
-import withAuth from "@/hoc/withAuth";
 import Link from "next/link";
 import router from "next/router";
 
@@ -72,4 +71,4 @@ const Category = () => {
   );
 };
 
-export default withAuth(Category);
+export default Category;

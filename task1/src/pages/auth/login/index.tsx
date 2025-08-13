@@ -1,10 +1,11 @@
 import { useState } from "react";
 import { useRouter } from "next/router";
 import Link from "next/link";
+import { getToken, setToken } from "@/utils/auth";
 
 export default function LoginPage() {
   const router = useRouter();
-  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
 
@@ -12,19 +13,26 @@ export default function LoginPage() {
     e.preventDefault();
     setError("");
 
-    const res = await fetch("/api/auth/login", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ username, password }),
-    });
+    try {
+      const res = await fetch("http://localhost:3000/api/auth/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${getToken()}`,
+        },
+        body: JSON.stringify({ email, password }),
+      });
 
-    const data = await res.json();
+      const data = await res.json();
 
-    if (res.ok) {
-      localStorage.setItem("token", data.token);
-      router.push("/");
-    } else {
-      setError(data.message || "Login failed");
+      if (res.ok) {
+        setToken(data.token);
+        router.push("/");
+      } else {
+        setError(data.message || "Login failed");
+      }
+    } catch (err) {
+      setError("Something went wrong");
     }
   };
 
@@ -41,10 +49,10 @@ export default function LoginPage() {
 
         <form onSubmit={handleLogin} className="space-y-6">
           <input
-            type="text"
-            placeholder="Admin ID"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
+            type="email"
+            placeholder="Email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
             className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-600 text-gray-700 placeholder-gray-400 transition"
             required
           />
@@ -78,4 +86,12 @@ export default function LoginPage() {
       </div>
     </div>
   );
+}
+
+export async function getServerSideProps() {
+  return {
+    props: {
+      LoginPage: true,
+    },
+  };
 }

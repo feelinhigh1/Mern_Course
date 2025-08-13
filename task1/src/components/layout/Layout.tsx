@@ -16,6 +16,7 @@ import {
   faLayerGroup,
   faFileLines,
 } from "@fortawesome/free-solid-svg-icons";
+import { removeToken } from "@/utils/auth";
 
 interface SidebarItem {
   name: string;
@@ -169,7 +170,7 @@ export default function Layout({
                 </Link>
                 <button
                   onClick={() => {
-                    localStorage.removeItem("token");
+                    removeToken();
                     router.push("/auth/login");
                     setDropdownOpen(false);
                   }}

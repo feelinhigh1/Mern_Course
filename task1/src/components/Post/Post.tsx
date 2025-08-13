@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Table from "@/components/Table";
 import { getPosts, deletePost } from "@/pages/api/rest_api";
-import withAuth from "@/hoc/withAuth";
 import Link from "next/link";
 import router from "next/router";
 
@@ -71,4 +70,4 @@ const Post = () => {
   );
 };
 
-export default withAuth(Post);
+export default Post;

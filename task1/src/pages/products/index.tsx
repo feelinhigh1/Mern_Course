@@ -1,5 +1,4 @@
 import UnderConstruction from "@/components/UnderConstruction";
-import withAuth from "@/hoc/withAuth";
 
 const index = () => {
   return (
@@ -10,4 +9,4 @@ const index = () => {
   );
 };
 
-export default withAuth(index);
+export default index;

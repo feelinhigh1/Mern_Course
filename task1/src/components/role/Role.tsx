@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Table from "@/components/Table";
 import { getRoles, deleteRole } from "@/pages/api/rest_api";
-import withAuth from "@/hoc/withAuth";
 import Link from "next/link";
 import router from "next/router";
 
@@ -70,4 +69,4 @@ const Role = () => {
   );
 };
 
-export default withAuth(Role);
+export default Role;

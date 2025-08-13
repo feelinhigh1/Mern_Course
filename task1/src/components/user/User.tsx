@@ -63,7 +63,7 @@ export default function User() {
           phone: user.phone,
           website: user.website,
           address: `${user.address.street}, ${user.address.city}`,
-          company: user.company.name,
+          company: user.company?.name,
         }));
 
         setUsers(formatted);

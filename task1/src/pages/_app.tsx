@@ -1,17 +1,18 @@
 import "@/styles/globals.css";
 import type { AppProps } from "next/app";
 import Layout from "@/components/layout/Layout";
+import { AuthContextProvider } from "@/context/auth.context";
 
-export default function App({ Component, pageProps, router }: AppProps) {
-  const noLayoutRoutes = ["/auth/login", "/auth/forgot-password"];
+export default function App({ Component, pageProps }: AppProps) {
+  const isLoginPage = pageProps.LoginPage;
 
-  const isNoLayoutRoute = noLayoutRoutes.includes(router.pathname);
-
-  return isNoLayoutRoute ? (
+  return isLoginPage ? (
     <Component {...pageProps} />
   ) : (
-    <Layout title="Admin Panel">
-      <Component {...pageProps} />
-    </Layout>
+    <AuthContextProvider>
+      <Layout title="Admin Panel">
+        <Component {...pageProps} />
+      </Layout>
+    </AuthContextProvider>
   );
 }
