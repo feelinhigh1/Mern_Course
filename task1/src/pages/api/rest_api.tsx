@@ -2,41 +2,139 @@ import { getToken } from "@/utils/auth";
 
 export const baseUrl = "http://localhost:3000/api";
 
-async function request(endpoint: string, options: RequestInit = {}) {
-  const token = getToken();
-  const res = await fetch(`${baseUrl}${endpoint}`, {
-    ...options,
+export async function getUsers() {
+  const res = await fetch(`${baseUrl}/users`, {
     headers: {
-      "Content-Type": "application/json",
-      ...(token ? { Authorization: `Bearer ${token}` } : {}),
-      ...options.headers,
+      Authorization: `Bearer ${getToken()}`,
+    },
+  });
+  if (!res.ok) {
+    throw new Error("Failed to fetch user");
+  }
+  return res.json();
+}
+
+export async function deleteUser(id: number) {
+  const res = await fetch(`${baseUrl}/users/${id}`, {
+    method: "DELETE",
+    headers: {
+      Authorization: `Bearer ${getToken()}`,
     },
   });
 
   if (!res.ok) {
-    const errorText = await res.text();
-    throw new Error(errorText || `Request failed: ${res.status}`);
+    throw new Error("Failed to delete user");
   }
 
   return res.json();
 }
 
-export const getUsers = () => request("/users");
-export const deleteUser = (id: number) =>
-  request(`/users/${id}`, { method: "DELETE" });
+export async function getRoles() {
+  const res = await fetch(`${baseUrl}/role`, {
+    headers: {
+      Authorization: `Bearer ${getToken()}`,
+    },
+  });
+  if (!res.ok) {
+    throw new Error("Failed to fetch roles");
+  }
+  return res.json();
+}
 
-export const getRoles = () => request("/role");
-export const deleteRole = (id: number) =>
-  request(`/role/${id}`, { method: "DELETE" });
-export const createRole = (role: { name: string; description: string }) =>
-  request("/role", { method: "POST", body: JSON.stringify(role) });
+export async function deleteRole(id: number) {
+  const res = await fetch(`${baseUrl}/role/${id}`, {
+    method: "DELETE",
+    headers: {
+      Authorization: `Bearer ${getToken()}`,
+    },
+  });
 
-export const getCategories = () => request("/categories");
-export const deleteCategory = (id: number) =>
-  request(`/categories/${id}`, { method: "DELETE" });
-export const createCategory = (category: { name: string; title: string }) =>
-  request("/categories", { method: "POST", body: JSON.stringify(category) });
+  if (!res.ok) {
+    throw new Error("Failed to delete role");
+  }
 
-export const getPosts = () => request("/post");
-export const deletePost = (id: number) =>
-  request(`/post/${id}`, { method: "DELETE" });
+  return res.json();
+}
+
+export async function createRole(role: { name: string; description: string }) {
+  const res = await fetch(`${baseUrl}/role`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(role),
+  });
+
+  if (!res.ok) {
+    throw new Error("Failed to create role");
+  }
+
+  return res.json();
+}
+
+export async function getCategories() {
+  const res = await fetch(`${baseUrl}/categories`, {
+    headers: {
+      Authorization: `Bearer ${getToken()}`,
+    },
+  });
+  if (!res.ok) {
+    throw new Error("Failed to fetch categories");
+  }
+  return res.json();
+}
+
+export async function deleteCategory(id: number) {
+  const res = await fetch(`${baseUrl}/categories/${id}`, {
+    method: "DELETE",
+  });
+
+  if (!res.ok) {
+    throw new Error("Failed to delete category");
+  }
+
+  return res.json();
+}
+
+export async function createCategory(category: {
+  name: string;
+  title: string;
+}) {
+  const res = await fetch(`${baseUrl}/categories`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(category),
+  });
+
+  if (!res.ok) {
+    throw new Error("Failed to create category");
+  }
+
+  return res.json();
+}
+
+export async function getPosts() {
+  const res = await fetch(`${baseUrl}/post`, {
+    headers: {
+      Authorization: `Bearer ${getToken()}`,
+    },
+  });
+  if (!res.ok) {
+    throw new Error("Failed to fetch posts");
+  }
+  return res.json();
+}
+
+export async function deletePost(id: number) {
+  const res = await fetch(`${baseUrl}/post/${id}`, {
+    method: "DELETE",
+  });
+
+  if (!res.ok) {
+    throw new Error("Failed to delete post");
+  }
+
+  return res.json();
+}

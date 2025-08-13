@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { getUsers } from "../../api/rest_api";
+import { get } from "../../api/rest_api";
 import { useRouter } from "next/router";
+import { getToken } from "@/utils/auth";
 
 const AuthContext = React.createContext({});
 
@@ -15,8 +16,8 @@ export const AuthContextProvider = ({
 
   const init = async () => {
     try {
-      const data = await getUsers();
-      setUser(data?.data || []);
+      const data = await get("/auth/init");
+      setUser(data?.data);
     } catch (error) {
       router.push("/auth/login");
     } finally {
