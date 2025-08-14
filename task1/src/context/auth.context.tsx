@@ -15,14 +15,13 @@ export const AuthContextProvider = ({
   const router = useRouter();
 
   const init = async () => {
-    try {
-      const data = await get("/auth/init");
+    const { data, error } = await get("/auth/init");
+    if (data && !error) {
       setUser(data?.data);
-    } catch (error) {
+    } else {
       router.push("/auth/login");
-    } finally {
-      setLoading(false);
     }
+    setLoading(false);
   };
 
   useEffect(() => {
