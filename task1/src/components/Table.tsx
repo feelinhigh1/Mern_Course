@@ -1,14 +1,10 @@
-import React, { useState } from "react";
+import React from "react";
 
 interface TableProps<T> {
   data: T[];
   onRowClick?: (row: T) => void;
   onEdit?: (row: T) => void;
   onDelete?: (row: T) => void;
-  pagination?: {
-    pageSize: number;
-    total: number;
-  };
 }
 
 export default function Table<T extends Record<string, any>>({
@@ -16,13 +12,7 @@ export default function Table<T extends Record<string, any>>({
   onRowClick,
   onEdit,
   onDelete,
-  pagination,
 }: TableProps<T>) {
-  const [currentPage, setCurrentPage] = useState(1);
-  const pageSize = pagination?.pageSize || 10;
-  const total = pagination?.total || data.length;
-  const totalPages = Math.ceil(total / pageSize);
-
   if (!data || data.length === 0) {
     return (
       <div className="p-6 text-center text-gray-500 italic font-sans text-xl">
@@ -32,10 +22,6 @@ export default function Table<T extends Record<string, any>>({
   }
 
   const headers = Object.keys(data[0]);
-  const paginatedData = data.slice(
-    (currentPage - 1) * pageSize,
-    currentPage * pageSize
-  );
 
   return (
     <div
@@ -64,7 +50,7 @@ export default function Table<T extends Record<string, any>>({
             fontFamily: '"Roboto", "Helvetica Neue", Arial, sans-serif',
           }}
         >
-          {paginatedData.map((row, i) => (
+          {data.map((row, i) => (
             <tr
               key={i}
               className={`transition duration-150 ${
@@ -108,39 +94,6 @@ export default function Table<T extends Record<string, any>>({
           ))}
         </tbody>
       </table>
-
-      {/* Pagination */}
-      <div className="flex items-center justify-center space-x-2 mt-4 p-4">
-        <button
-          className="px-3 py-1 border rounded-md text-gray-600 hover:bg-gray-100 disabled:opacity-50"
-          onClick={() => setCurrentPage((p) => p - 1)}
-          disabled={currentPage === 1}
-        >
-          Prev
-        </button>
-
-        {Array.from({ length: totalPages }, (_, idx) => idx + 1).map((page) => (
-          <button
-            key={page}
-            onClick={() => setCurrentPage(page)}
-            className={`px-3 py-1 border rounded-md ${
-              currentPage === page
-                ? "bg-green-600 text-white"
-                : "hover:bg-gray-100"
-            }`}
-          >
-            {page}
-          </button>
-        ))}
-
-        <button
-          className="px-3 py-1 border rounded-md text-gray-600 hover:bg-gray-100 disabled:opacity-50"
-          onClick={() => setCurrentPage((p) => p + 1)}
-          disabled={currentPage === totalPages}
-        >
-          Next
-        </button>
-      </div>
     </div>
   );
 }

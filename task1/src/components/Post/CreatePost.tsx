@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
 import router from "next/router";
 import { getUsers, getCategories } from "@/pages/api/rest_api";
+import { post } from "../../../api/rest_api";
 
 interface User {
   id: number | string;
@@ -24,7 +24,6 @@ const CreatePost = () => {
   const [files, setFiles] = useState<FileList | null>(null);
   const [fileNames, setFileNames] = useState<string[]>([]);
 
-  // State for users & categories fetched from API
   const [users, setUsers] = useState<User[]>([]);
   const [categories, setCategories] = useState<Category[]>([]);
   const [loadingUsers, setLoadingUsers] = useState(true);
@@ -91,13 +90,13 @@ const CreatePost = () => {
     }
 
     try {
-      await axios.post("http://localhost:3000/api/post", postData, {
-        headers: { "Content-Type": "multipart/form-data" },
-      });
+      const { data, error } = await post("/post", postData); // ← use global helper
+      if (error) throw new Error(error);
+
       router.push("/post");
-    } catch (err) {
+    } catch (err: any) {
       console.error("Failed to create post", err);
-      alert("Failed to create post");
+      alert(err.message || "Failed to create post");
     }
   };
 
@@ -115,7 +114,6 @@ const CreatePost = () => {
         {errorCategories && <p>Error loading categories: {errorCategories}</p>}
       </div>
     );
-
   return (
     <div className="max-w-3xl mx-auto mt-8 p-6 bg-white border border-gray-200 rounded-xl shadow-lg">
       <h1 className="text-2xl font-serif font-bold text-gray-900 mb-6">

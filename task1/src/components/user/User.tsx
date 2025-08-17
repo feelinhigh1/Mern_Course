@@ -62,7 +62,7 @@ export default function User() {
           username: user.username,
           phone: user.phone,
           website: user.website,
-          address: `${user.address.street}, ${user.address.city}`,
+          address: `${user.address?.street}, ${user.address?.city}`,
           company: user.company?.name,
         }));
 

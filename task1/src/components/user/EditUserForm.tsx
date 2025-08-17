@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
+import { getToken } from "@/utils/auth";
 
 interface EditUserFormProps {
   id: string | string[] | undefined;
@@ -38,8 +39,17 @@ export default function EditUserForm({ id }: EditUserFormProps) {
 
   useEffect(() => {
     if (id) {
-      fetch(`http://localhost:3000/api/users/${id}`)
-        .then((res) => res.json())
+      fetch(`http://localhost:3000/api/users/${id}`, {
+        headers: {
+          Authorization: `Bearer ${getToken()}`,
+        },
+      })
+        .then((res) => {
+          if (!res.ok) {
+            throw new Error("Unauthorized");
+          }
+          return res.json();
+        })
         .then((data) => {
           setUser(data);
           setForm({
@@ -91,6 +101,7 @@ export default function EditUserForm({ id }: EditUserFormProps) {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
+          Authorization: `Bearer ${getToken()}`,
         },
         body: JSON.stringify(payload),
       });

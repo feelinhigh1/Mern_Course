@@ -1,51 +1,48 @@
-// import { getToken } from "@/utils/auth";
 import { getToken } from "@/utils/auth";
-import axios, { AxiosError } from "axios";
+import axios from "axios";
+// import { error } from "console";
 
-// Create the Axios instance
 const API = axios.create({
   baseURL: "http://localhost:3000/api",
 });
 
-// GET request
+API.interceptors.request.use((req) => {
+  req.headers.Authorization = `Bearer ${getToken()}`;
+  return req;
+});
+
 export const get = async (url: string) => {
-  const token = getToken();
   try {
-    const response = await API.get(url, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-    return { data: response.data };
-  } catch (e) {
-    const err = e as AxiosError;
-    return {
-      error: err.response?.data || err.message || "Something went wrong!",
-    };
+    const { data } = await API.get(url);
+    return { data };
+  } catch (e: any) {
+    return { error: e?.response?.message };
   }
 };
 
-// POST request
-export const post = async (url: string, body: any) => {
+export const post = async (url: string, data: any) => {
   try {
-    const response = await API.post(url, body);
+    const response = await API.post(url, data);
     return { data: response.data };
-  } catch (e) {
-    const err = e as AxiosError;
-    return {
-      error: err.response?.data || err.message || "Something went wrong!",
-    };
+  } catch (e: any) {
+    return { error: e?.response?.message };
   }
 };
-// PUT request (for editing/updating data)
-export const put = async (url: string, body: any) => {
+
+export const patch = async (url: string, data: any) => {
   try {
-    const response = await API.put(url, body);
+    const response = await API.patch(url, data);
     return { data: response.data };
-  } catch (e) {
-    const err = e as AxiosError;
-    return {
-      error: err.response?.data || err.message || "Something went wrong!",
-    };
+  } catch (e: any) {
+    return { error: e?.response?.message };
+  }
+};
+
+export const remove = async (url: string) => {
+  try {
+    const response = await API.delete(url);
+    return { data: response.data };
+  } catch (e: any) {
+    return { error: e?.response?.message };
   }
 };

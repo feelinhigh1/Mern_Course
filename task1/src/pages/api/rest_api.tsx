@@ -61,6 +61,7 @@ export async function createRole(role: { name: string; description: string }) {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
+      Authorization: `Bearer ${getToken()}`,
     },
     body: JSON.stringify(role),
   });
@@ -87,6 +88,9 @@ export async function getCategories() {
 export async function deleteCategory(id: number) {
   const res = await fetch(`${baseUrl}/categories/${id}`, {
     method: "DELETE",
+    headers: {
+      Authorization: `Bearer ${getToken()}`,
+    },
   });
 
   if (!res.ok) {
@@ -104,6 +108,7 @@ export async function createCategory(category: {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
+      Authorization: `Bearer ${getToken()}`,
     },
     body: JSON.stringify(category),
   });
@@ -130,6 +135,9 @@ export async function getPosts() {
 export async function deletePost(id: number) {
   const res = await fetch(`${baseUrl}/post/${id}`, {
     method: "DELETE",
+    headers: {
+      Authorization: `Bearer ${getToken()}`,
+    },
   });
 
   if (!res.ok) {

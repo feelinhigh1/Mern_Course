@@ -1,7 +1,6 @@
-import React, { useState } from "react";
-
-import axios from "axios";
+import { post } from "../../../api/rest_api"; // import your global POST helper
 import router from "next/router";
+import React, { useState } from "react";
 
 const CreateUser = () => {
   const [formData, setFormData] = useState({
@@ -19,12 +18,6 @@ const CreateUser = () => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  // const handleSubmit = (e: React.FormEvent) => {
-  //   e.preventDefault();
-  //   console.log("User Created:", formData);
-  //   // submit to API here
-  // };
-
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
@@ -35,7 +28,7 @@ const CreateUser = () => {
       phone: formData.phone,
       website: formData.website,
       address: {
-        street: formData.street,
+        street: formData?.street,
         city: formData.city,
       },
       company: {
@@ -43,12 +36,13 @@ const CreateUser = () => {
       },
     };
 
-    try {
-      await axios.post("http://localhost:3000/api/users", userPayload); // ← your Express API endpoint
-      router.push("/users"); // redirect after success
-    } catch (err) {
-      console.error("Failed to create user", err);
+    const { data, error } = await post("/users", userPayload);
+
+    if (error) {
+      console.error("Failed to create user:", error);
       alert("Failed to create user");
+    } else {
+      router.push("/users");
     }
   };
 
